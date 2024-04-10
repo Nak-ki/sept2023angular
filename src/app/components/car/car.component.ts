@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {ICar} from "../../interfaces/car.interface";
+import {CarService} from "../../services/car.service";
 
 @Component({
   selector: 'app-car',
@@ -9,4 +11,19 @@ import { Component } from '@angular/core';
 })
 export class CarComponent {
 
+  @Input()
+  car:ICar
+
+  constructor(private carService:CarService) {
+  }
+
+  deleteCar() {
+    this.carService.deleteById(this.car.id).subscribe(() => {
+      this.carService.setTrigger()
+    })
+  }
+
+  updateCar() {
+    this.carService.setCarForUpdate(this.car)
+  }
 }
